@@ -1,26 +1,28 @@
-import React from "react";
+import { useState } from "react";
 
-const AddTodoForm = (props) => {
+function AddTodoForm ({onAddTodo}) {
+  const [todoTitle, setTodoTitle] = useState(""); // Adding a state variable todoTitle
 
-    function handleAddTodo(event) {
-      event.preventDefault(); 
-      const form = event.target;
-      const todoTitle = form["title"].value; 
-      console.log(todoTitle);
+  const handleAddTodo = (event) => {
+    event.preventDefault();
 
-      props.onAddTodo(todoTitle);
-      form.reset();
-    }
+    onAddTodo({ title: todoTitle, id: Date.now() }); // Passing an object with title and a unique id
+    setTodoTitle(""); //Reseting todoTitle
+  }
 
-    return (
-      <form onSubmit={handleAddTodo}>
-        <label htmlFor="todoTitle">Title: </label>
-        <input type="text" id="todoTitle" name="title" />
-        <button type="submit">Add</button>
-      </form>
-    );
-
-    
+  return (
+    <form onSubmit={handleAddTodo}>
+      <label htmlFor="todoTitle">Title: </label>
+      <input
+        type="text"
+        id="todoTitle"
+        name="title"
+        value={todoTitle} // Making the input a controlled component
+        onChange={(event) => setTodoTitle(event.target.value)} // Handling input changes
+      />
+      <button type="submit">Add</button>
+    </form>
+  );
 }
 
 export default AddTodoForm;
