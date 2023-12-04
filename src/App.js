@@ -1,25 +1,44 @@
+import React from "react";
 import TodoList from "./TodoList";
 import AddTodoForm from "./AddTodoForm";
-import useSemiPersistentState from "./useSemiPersistentState"; // Importing the custom hook
+
+const useSemiPersistentState = () => {
+  const [todoList, setTodoList] = React.useState(
+    JSON.parse(localStorage.getItem("savedTodoList")) || []
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem("savedTodoList", JSON.stringify(todoList));
+  }, [todoList]);
+
+  return [todoList, setTodoList];
+};
+
 
 function App() {
-  //const [todoList, setTodoList] = useState([initialTodoList]); // Adding a state variable todoList
-  // const [todoList, setTodoList] = useState(initialTodoList);
-  
   // Using the custom hook to get and set the todoList state
   const [todoList, setTodoList] = useSemiPersistentState();
   
-  const addTodo = (newTodo) => {
-    setTodoList((prevTodoList) => [...prevTodoList, newTodo]); // Adding a new todo to the todoList
+  function addTodo (newTodo) {
+    setTodoList((prevState) => [...prevState, newTodo]);
   };
 
+
+  React.useEffect(() => {
+    localStorage.setItem("savedTodoList", JSON.stringify(todoList));
+  }, [todoList]);
+
+  const removeTodo = (id) => {
+    const newList = todoList.filter((item) => item.id !== id);
+    setTodoList(newList);
+  };
 
   return (
     <>
       <div style={{ textAlign: "center" }}>
         <h1>Todo List</h1>
-        <AddTodoForm onAddTodo={addTodo} todoList={todoList} />
-        <TodoList todoList={todoList} />
+        <AddTodoForm onAddTodo={addTodo} />
+        <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
       </div>
     </>
   );

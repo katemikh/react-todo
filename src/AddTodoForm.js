@@ -1,10 +1,17 @@
-import { useState } from "react";
+import React from "react";
+// import { useState } from "react";
+import InputWithLabel from "./InputWithLabel";
 
-function AddTodoForm ({onAddTodo}) {
-  const [todoTitle, setTodoTitle] = useState(""); // Adding a state variable todoTitle
+const AddTodoForm = ({ onAddTodo }) => {
+  const [todoTitle, setTodoTitle] = React.useState(""); // Adding a state variable todoTitle
 
-  const handleAddTodo = (event) => {
-    event.preventDefault();
+  function handleTitleChange(e) {
+    let newTodoTitle = e.target.value;
+    setTodoTitle(newTodoTitle);
+  }
+
+  function handleAddTodo (e) {
+    e.preventDefault();
 
     onAddTodo({ title: todoTitle, id: Date.now() }); // Passing an object with title and a unique id
     setTodoTitle(""); //Reseting todoTitle
@@ -12,14 +19,9 @@ function AddTodoForm ({onAddTodo}) {
 
   return (
     <form onSubmit={handleAddTodo}>
-      <label htmlFor="todoTitle">Title: </label>
-      <input
-        type="text"
-        id="todoTitle"
-        name="title"
-        value={todoTitle} // Making the input a controlled component
-        onChange={(event) => setTodoTitle(event.target.value)} // Handling input changes
-      />
+      <InputWithLabel todoTitle={todoTitle} onInputChange={handleTitleChange}>
+      Title: 
+     </InputWithLabel>
       <button type="submit">Add</button>
     </form>
   );
