@@ -1,18 +1,18 @@
-// InputWithLabel.js
-import React from 'react';
+import React, { useEffect } from "react";
 
 const InputWithLabel = ({ todoTitle, onInputChange, children }) => {
-    const inputRef = React.useRef();
+  const inputRef = React.useRef();
 
-    React.useEffect(() => {
-      inputRef.current.focus();
-    })
+  useEffect(() => {
+    inputRef.current.focus();
+  });
+
   return (
     // JSX for label and input goes here
-     <>
+    <>
       <label htmlFor="todoTitle"> {children} </label>
       <input
-      id="todoTitle"
+        id="todoTitle"
         type="text"
         value={todoTitle}
         name="title"
@@ -20,7 +20,7 @@ const InputWithLabel = ({ todoTitle, onInputChange, children }) => {
         ref={inputRef}
       />
     </>
-    );
+  );
 };
 
 export default InputWithLabel;
