@@ -6,7 +6,7 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchData = () =>
+  useEffect(() => {
     new Promise((resolve, reject) =>
       setTimeout(
         () =>
@@ -17,10 +17,7 @@ function App() {
           }),
         2000
       )
-    );
-
-  useEffect(() => {
-    fetchData().then((result) => {
+    ).then((result) => {
       setTodoList(result.data.todoList);
       setIsLoading(false);
     });
