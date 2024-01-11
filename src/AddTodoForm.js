@@ -1,16 +1,15 @@
-import React from "react";
-// import { useState } from "react";
+import React, { useState } from "react";
 import InputWithLabel from "./InputWithLabel";
 
 const AddTodoForm = ({ onAddTodo }) => {
-  const [todoTitle, setTodoTitle] = React.useState(""); // Adding a state variable todoTitle
+  const [todoTitle, setTodoTitle] = useState(""); // Adding a state variable todoTitle
 
-  function handleTitleChange(e) {
+  const handleTitleChange = (e) => {
     let newTodoTitle = e.target.value;
     setTodoTitle(newTodoTitle);
   }
 
-  function handleAddTodo (e) {
+  const handleAddTodo = (e) => {
     e.preventDefault();
 
     onAddTodo({ title: todoTitle, id: Date.now() }); // Passing an object with title and a unique id
@@ -19,12 +18,17 @@ const AddTodoForm = ({ onAddTodo }) => {
 
   return (
     <form onSubmit={handleAddTodo}>
-      <InputWithLabel todoTitle={todoTitle} onInputChange={handleTitleChange}>
-      Title: 
-     </InputWithLabel>
+      <InputWithLabel
+        id="todoTitle"
+        name="title"
+        todoTitle={todoTitle}
+        onInputChange={handleTitleChange}
+      >
+        Title:
+      </InputWithLabel>
       <button type="submit">Add</button>
     </form>
   );
-}
+};
 
 export default AddTodoForm;
