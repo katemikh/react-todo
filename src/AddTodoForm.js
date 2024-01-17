@@ -12,7 +12,11 @@ const AddTodoForm = ({ onAddTodo }) => {
   const handleAddTodo = (e) => {
     e.preventDefault();
 
-    onAddTodo({ title: todoTitle, id: Date.now() }); // Passing an object with title and a unique id
+    if (todoTitle === '') {
+      return;
+    }
+
+    onAddTodo(todoTitle);
     setTodoTitle(""); //Reseting todoTitle
   }
 
