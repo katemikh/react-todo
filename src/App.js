@@ -6,10 +6,10 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-// Create a new variable url
-const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+  // Create a new variable url
+  const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
 
-// New async function fetchData
+  // New async function fetchData
   const fetchData = async () => {
     // Declare empty object variable options
     const options = {
@@ -29,7 +29,7 @@ const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_I
       // Check if the response is okay, throw an error if not
       if (!response.ok) {
         // throw new Error(`Error: ${response.status}`);
-       // or 2nd option
+        // or 2nd option
         const message = `Error: ${response.status}`;
         throw new Error(message);
       }
@@ -62,12 +62,13 @@ const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_I
   };
 
   useEffect(() => {
-  fetchData();
-});
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); //the empty dependency array 
 
   useEffect(() => {
     if (!isLoading) {
-      localStorage.setItem("savedTodoList", JSON.stringify(todoList));
+      localStorage.setItem('savedTodoList', JSON.stringify(todoList));
     }
   }, [todoList, isLoading]);
 
