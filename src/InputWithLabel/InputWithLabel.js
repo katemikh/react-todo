@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import style from './InputWithLabel.module.css';
 
 const InputWithLabel = ({  id, name, todoTitle, onInputChange, children }) => {
   const inputRef = React.useRef();
@@ -18,6 +19,8 @@ const InputWithLabel = ({  id, name, todoTitle, onInputChange, children }) => {
         name={name}
         onChange={onInputChange}
         ref={inputRef}
+        className={style.formInput}
+        placeholder="Type new task..."
       />
     </>
   );

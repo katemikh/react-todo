@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import InputWithLabel from "./InputWithLabel";
+import React, { useState } from 'react';
+import InputWithLabel from '../InputWithLabel/InputWithLabel';
+import style from './AddTodoForm.module.css';
 
 const AddTodoForm = ({ onAddTodo }) => {
-  const [todoTitle, setTodoTitle] = useState(""); // Adding a state variable todoTitle
+  const [todoTitle, setTodoTitle] = useState(''); // Adding a state variable todoTitle
 
   const handleTitleChange = (e) => {
     let newTodoTitle = e.target.value;
     setTodoTitle(newTodoTitle);
-  }
+  };
 
   const handleAddTodo = (e) => {
     e.preventDefault();
@@ -17,20 +18,20 @@ const AddTodoForm = ({ onAddTodo }) => {
     }
 
     onAddTodo(todoTitle);
-    setTodoTitle(""); //Reseting todoTitle
-  }
+    setTodoTitle(''); //Reseting todoTitle
+  };
 
   return (
-    <form onSubmit={handleAddTodo}>
+    <form onSubmit={handleAddTodo} className={style.form}>
       <InputWithLabel
         id="todoTitle"
         name="title"
         todoTitle={todoTitle}
         onInputChange={handleTitleChange}
-      >
-        Title:
-      </InputWithLabel>
-      <button type="submit">Add</button>
+      ></InputWithLabel>
+      <button type="submit" className={style.btnAdd}>
+        Add
+      </button>
     </form>
   );
 };
