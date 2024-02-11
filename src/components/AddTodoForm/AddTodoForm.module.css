@@ -13,9 +13,9 @@ background-color: #454e50;
 
 
 color: #fff;
-border-radius:10px;
-border-top-right-radius: 10px;
-border-bottom-right-radius: 10px;
+border-radius:5px;
+/* border-top-right-radius: 10px;
+border-bottom-right-radius: 10px; */
 cursor: pointer;
 transition: 0.3s ease-in-out;
 position: relative;
@@ -25,7 +25,7 @@ box-shadow: 5px 1px 10px rgba(165, 165, 165, 0.6);
 .btnAdd:hover {
 background-color: rgb(220, 203, 107);
 border: 1px solid #fff;
-border-radius:10px;
+border-radius:5px;
 }
 
 @media screen and (max-width: 768px) {
