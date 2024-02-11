@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import TodoList from '../TodoList/TodoList.js';
 import AddTodoForm from '../AddTodoForm/AddTodoForm.js';
 import style from './ReactTodo.module.css';
 
-function ReactTodo() {
+function ReactTodo ({ tableName }) {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sort, setSort] = useState('asc');
 
   // Create a new variable url
-  const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+  // const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
+    const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${tableName}`;
 
-  // New async function fetchData
-  const fetchData = async () => {
+  //Get access from Airtable
+  const fetchData = useCallback(async () => {
     // Declare empty object variable options
     const options = {
       method: 'GET',
@@ -20,12 +23,10 @@ function ReactTodo() {
       },
     };
 
-    //console.log('API Token:', process.env.REACT_APP_AIRTABLE_API_TOKEN);
-    //console.log('API Token:', process.env.REACT_APP_AIRTABLE_BASE_ID);
-
     try {
       // Fetch data from Airtable
-      const response = await fetch(url, options);
+      // const response = await fetch(url, options); - old
+      const response = await fetch(`${url}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=${sort}`, options); //updated
 
       // Check if the response is okay, throw an error if not
       if (!response.ok) {
@@ -38,6 +39,22 @@ function ReactTodo() {
       // Parse the response data
       const data = await response.json();
 
+ // sort todo	
+      // data.records.sort((objectA, objectB) => {	
+      //   const titleA = objectA.fields.title.toLowerCase();	
+      //   const titleB = objectB.fields.title.toLowerCase();	
+
+      //   if (titleA === titleB) {	
+      //     return 0;	
+      //   }	
+
+      //   // sort function in ascending order	
+      //   return titleA < titleB ? -1 : 1;	
+
+      //   // sort function in descending order	
+      //   // return titleA < titleB ? 1 : -1;	
+      // });
+      
       // Console.log the data for observation
       console.log('example response:', data);
 
@@ -60,12 +77,17 @@ function ReactTodo() {
       // Console.log the error's message
       console.log(error.message);
     }
+  }, [sort, url]);
+
+  // sort todo with toggle button
+    const handleSort = () => {
+    const toggleSort = sort === 'asc' ? 'desc' : 'asc';
+    setSort(toggleSort);
   };
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); //the empty dependency array
+  }, [fetchData, sort]); 
 
   useEffect(() => {
     if (!isLoading) {
@@ -140,6 +162,9 @@ function ReactTodo() {
       <div className={style.container}>
         <h1 className={style.heading}>Todo List</h1>
         <AddTodoForm onAddTodo={addTodo} />
+        <button className={style.btnToggle} onClick={handleSort}>
+          {sort === 'asc' ? 'from Z to A' : 'from A to Z'}
+        </button>
         {isLoading ? (
           <p className={style.loading}>Loading...</p>
         ) : (
@@ -149,5 +174,8 @@ function ReactTodo() {
     </>
   );
 }
+ReactTodo.propTypes = {
+  tableName: PropTypes.string,
+};
 
 export default ReactTodo;
