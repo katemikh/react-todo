@@ -38,7 +38,7 @@ const AddTodoForm = ({ onAddTodo }) => {
 };
 
 AddTodoForm.propsTypes = {
-  onAddTodo: PropTypes.func,
+  onAddTodo: PropTypes.func.isRequired,
 };
 
 export default AddTodoForm;
