@@ -7,7 +7,8 @@ import style from './ReactTodo.module.css';
 function ReactTodo ({ tableName }) {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [sort, setSort] = useState('asc');
+  // const [sort, setSort] = useState('asc');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   // Create a new variable url
   // const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
@@ -26,7 +27,10 @@ function ReactTodo ({ tableName }) {
     try {
       // Fetch data from Airtable
       // const response = await fetch(url, options); - old
-      const response = await fetch(`${url}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=${sort}`, options); //updated
+      const response = await fetch(
+        `${url}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=${sortOrder}`, //=${sort}
+        options
+      ); //updated
 
       // Check if the response is okay, throw an error if not
       if (!response.ok) {
@@ -39,22 +43,22 @@ function ReactTodo ({ tableName }) {
       // Parse the response data
       const data = await response.json();
 
- // sort todo	
-      // data.records.sort((objectA, objectB) => {	
-      //   const titleA = objectA.fields.title.toLowerCase();	
-      //   const titleB = objectB.fields.title.toLowerCase();	
+      // sort todo
+      // data.records.sort((objectA, objectB) => {
+      //   const titleA = objectA.fields.title.toLowerCase();
+      //   const titleB = objectB.fields.title.toLowerCase();
 
-      //   if (titleA === titleB) {	
-      //     return 0;	
-      //   }	
+      //   if (titleA === titleB) {
+      //     return 0;
+      //   }
 
-      //   // sort function in ascending order	
-      //   return titleA < titleB ? -1 : 1;	
+      //   // sort function in ascending order
+      //   return titleA < titleB ? -1 : 1;
 
-      //   // sort function in descending order	
-      //   // return titleA < titleB ? 1 : -1;	
+      //   // sort function in descending order
+      //   // return titleA < titleB ? 1 : -1;
       // });
-      
+
       // Console.log the data for observation
       console.log('example response:', data);
 
@@ -77,17 +81,27 @@ function ReactTodo ({ tableName }) {
       // Console.log the error's message
       console.log(error.message);
     }
-  }, [sort, url]);
+    // }, [sort, url]);
+  }, [sortOrder, url]);
 
   // sort todo with toggle button
-    const handleSort = () => {
-    const toggleSort = sort === 'asc' ? 'desc' : 'asc';
-    setSort(toggleSort);
-  };
+  //   const handleSort = () => {
+  //   const toggleSort = sort === 'asc' ? 'desc' : 'asc';
+  //   setSort(toggleSort);
+  // };
+  
+  // other option
+
+   const handleSort = () => {
+     setSortOrder((prevSortOrder) =>
+       prevSortOrder === 'asc' ? 'desc' : 'asc'
+     );
+   };
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, sort]); 
+    // }, [fetchData, sort]);
+  }, [fetchData, sortOrder]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -126,7 +140,7 @@ function ReactTodo ({ tableName }) {
     } catch (error) {
       console.log(error.message);
 
-      return null;
+      // return null;
     }
   };
 
@@ -153,7 +167,7 @@ function ReactTodo ({ tableName }) {
     } catch (error) {
       // console.log(error.message);
       // console.log('API Token:', process.env.REACT_APP_AIRTABLE_API_TOKEN);
-      return null;
+      // return null;
     }
   };
 
@@ -162,8 +176,9 @@ function ReactTodo ({ tableName }) {
       <div className={style.container}>
         <h1 className={style.heading}>Todo List</h1>
         <AddTodoForm onAddTodo={addTodo} />
-        <button className={style.btnToggle} onClick={handleSort}>
-          {sort === 'asc' ? 'from Z to A' : 'from A to Z'}
+        <button type="button" className={style.btnToggle} onClick={handleSort}>
+          {/* {sort === 'asc' ? 'from Z to A' : 'from A to Z'} */}
+          {sortOrder === 'asc' ? 'from Z to A' : 'from A to Z'}
         </button>
         {isLoading ? (
           <p className={style.loading}>Loading...</p>
