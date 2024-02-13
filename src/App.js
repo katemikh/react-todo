@@ -4,10 +4,11 @@ import ReactTodo from './components/ReactTodo/ReactTodo';
 import './App.css';
 
 function App() {
+  const tableName = process.env.REACT_APP_TABLE_NAME;
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ReactTodo />}></Route>
+        <Route path="/" element={<ReactTodo tableName={tableName} />}></Route>
         <Route path="/new" element={<h1>New Todo List</h1>}></Route>
       </Routes>
     </BrowserRouter>

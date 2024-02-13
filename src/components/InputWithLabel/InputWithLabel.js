@@ -2,18 +2,20 @@ import React, { useEffect } from "react";
 import style from './InputWithLabel.module.css';
 import PropTypes from 'prop-types';
 
-const InputWithLabel = ({  
-  id, 
-  name, 
-  todoTitle, 
-  onInputChange, 
-  children, 
-  type = 'text' }) => {
+const InputWithLabel = ({
+  id,
+  name,
+  todoTitle,
+  onInputChange,
+  placeholder,
+  children,
+  type = 'text',
+}) => {
   const inputRef = React.useRef();
 
   useEffect(() => {
     inputRef.current.focus();
-  },[]);
+  }, []);
 
   return (
     <>
@@ -26,7 +28,7 @@ const InputWithLabel = ({
         onChange={onInputChange}
         ref={inputRef}
         className={style.formInput}
-        placeholder="Type new task..."
+        placeholder={placeholder}
       />
     </>
   );
@@ -39,6 +41,7 @@ InputWithLabel.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   type: PropTypes.string,
   children: PropTypes.node,
+  placeholder: PropTypes.string,
 };
 
 export default InputWithLabel;
