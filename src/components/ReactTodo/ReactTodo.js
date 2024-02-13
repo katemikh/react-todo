@@ -7,20 +7,18 @@ import style from './ReactTodo.module.css';
 function ReactTodo ({ tableName }) {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [sort, setSort] = useState('asc');
   const [sortOrder, setSortOrder] = useState('asc');
 
   // Create a new variable url
-  // const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`;
-    const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${tableName}`;
+  const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${tableName}`;
 
   //Get access from Airtable
   const fetchData = useCallback(async () => {
-    // Declare empty object variable options
+  // Declare empty object variable options
     const options = {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+      Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
       },
     };
 
@@ -28,9 +26,9 @@ function ReactTodo ({ tableName }) {
       // Fetch data from Airtable
       // const response = await fetch(url, options); - old
       const response = await fetch(
-        `${url}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=${sortOrder}`, //=${sort}
+        `${url}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=${sortOrder}`, 
         options
-      ); //updated
+      ); 
 
       // Check if the response is okay, throw an error if not
       if (!response.ok) {
@@ -42,22 +40,6 @@ function ReactTodo ({ tableName }) {
 
       // Parse the response data
       const data = await response.json();
-
-      // sort todo
-      // data.records.sort((objectA, objectB) => {
-      //   const titleA = objectA.fields.title.toLowerCase();
-      //   const titleB = objectB.fields.title.toLowerCase();
-
-      //   if (titleA === titleB) {
-      //     return 0;
-      //   }
-
-      //   // sort function in ascending order
-      //   return titleA < titleB ? -1 : 1;
-
-      //   // sort function in descending order
-      //   // return titleA < titleB ? 1 : -1;
-      // });
 
       // Console.log the data for observation
       console.log('example response:', data);
@@ -81,7 +63,6 @@ function ReactTodo ({ tableName }) {
       // Console.log the error's message
       console.log(error.message);
     }
-    // }, [sort, url]);
   }, [sortOrder, url]);
 
   // sort todo with toggle button
@@ -89,7 +70,7 @@ function ReactTodo ({ tableName }) {
   //   const toggleSort = sort === 'asc' ? 'desc' : 'asc';
   //   setSort(toggleSort);
   // };
-  
+
   // other option
 
    const handleSort = () => {
@@ -100,7 +81,6 @@ function ReactTodo ({ tableName }) {
 
   useEffect(() => {
     fetchData();
-    // }, [fetchData, sort]);
   }, [fetchData, sortOrder]);
 
   useEffect(() => {
@@ -177,7 +157,6 @@ function ReactTodo ({ tableName }) {
         <h1 className={style.heading}>Todo List</h1>
         <AddTodoForm onAddTodo={addTodo} />
         <button type="button" className={style.btnToggle} onClick={handleSort}>
-          {/* {sort === 'asc' ? 'from Z to A' : 'from A to Z'} */}
           {sortOrder === 'asc' ? 'from Z to A' : 'from A to Z'}
         </button>
         {isLoading ? (
