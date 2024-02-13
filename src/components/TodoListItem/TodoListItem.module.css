@@ -8,18 +8,16 @@ position: relative;
 background-color: #454e50;
 padding: 0.5rem;
 border-radius: 5px;
-
 box-shadow: 5px 1px 10px rgba(165, 165, 165, 0.6);
 }
 
 .ListItem::before {
-/* content: url('../media/icon.png'); */
 padding-right: 0.5rem; 
 content: ""; /* Using an empty content */
-background: url('/src/media/icon.png') no-repeat; /* Seting the background image */
-background-size: contain; /* Ensuring the background image fits */
-width: 40px; /* Adjusting the width  */
-height: 40px; /* Adjusting the height */
+background: url('/src/media/icon.png') no-repeat; 
+background-size: contain;
+width: 40px; 
+height: 40px; 
 margin-right: 0.5rem;
 
 border: 1px solid #fff;

@@ -9,12 +9,9 @@ function ReactTodo ({ tableName }) {
   const [isLoading, setIsLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState('asc');
 
-  // Create a new variable url
   const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${tableName}`;
 
-  //Get access from Airtable
   const fetchData = useCallback(async () => {
-  // Declare empty object variable options
     const options = {
       method: 'GET',
       headers: {
@@ -23,28 +20,19 @@ function ReactTodo ({ tableName }) {
     };
 
     try {
-      // Fetch data from Airtable
-      // const response = await fetch(url, options); - old
+
       const response = await fetch(
         `${url}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=${sortOrder}`, 
         options
       ); 
 
-      // Check if the response is okay, throw an error if not
       if (!response.ok) {
-        // throw new Error(`Error: ${response.status}`);
-        // or 2nd option
         const message = `Error: ${response.status}`;
         throw new Error(message);
       }
 
-      // Parse the response data
       const data = await response.json();
 
-      // Console.log the data for observation
-      console.log('example response:', data);
-
-      // Map data.records into an array of todo objects
       const todos = data.records.map((todo) => {
         const newTodo = {
           title: todo.fields.title,
@@ -53,14 +41,9 @@ function ReactTodo ({ tableName }) {
         return newTodo;
       });
 
-      // Console.log the transformed todos array
-      console.log('Transformed Todos:', todos);
-
-      // Set the application's todoList
       setTodoList(todos);
       setIsLoading(false);
     } catch (error) {
-      // Console.log the error's message
       console.log(error.message);
     }
   }, [sortOrder, url]);
@@ -73,11 +56,11 @@ function ReactTodo ({ tableName }) {
 
   // other option
 
-   const handleSort = () => {
-     setSortOrder((prevSortOrder) =>
-       prevSortOrder === 'asc' ? 'desc' : 'asc'
-     );
-   };
+    const handleSort = () => {
+      setSortOrder((prevSortOrder) =>
+        prevSortOrder === 'asc' ? 'desc' : 'asc'
+      );
+    };
 
   useEffect(() => {
     fetchData();
@@ -89,7 +72,6 @@ function ReactTodo ({ tableName }) {
     }
   }, [todoList, isLoading]);
 
-  //to add an item to Airtable
   const addTodo = async (todo) => {
     const airtableData = {
       fields: {
@@ -115,16 +97,18 @@ function ReactTodo ({ tableName }) {
       }
 
       const resp = await response.json();
-      const newTodo = { id: resp.id, title: resp.fields.title };
+      const newTodo = { 
+        id: resp.id, 
+        title: resp.fields.title 
+      };
       setTodoList([...todoList, newTodo]);
     } catch (error) {
       console.log(error.message);
 
-      // return null;
+      return null;
     }
   };
 
-  // remove an item from Airtable
   const removeTodo = async (id) => {
     const options = {
       method: 'DELETE',
@@ -145,9 +129,8 @@ function ReactTodo ({ tableName }) {
       const newList = todoList.filter((item) => item.id !== id);
       setTodoList(newList);
     } catch (error) {
-      // console.log(error.message);
-      // console.log('API Token:', process.env.REACT_APP_AIRTABLE_API_TOKEN);
-      // return null;
+      console.log(error.message);
+      return null;
     }
   };
 

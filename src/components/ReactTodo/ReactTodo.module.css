@@ -27,13 +27,8 @@ position: absolute;
 }
 
 .heading {
-/* font-size: 3.5rem; */
 margin: 1rem 0 1rem;
-/* color: #fff;
-text-shadow: 1px 1px 2px #323232; */
 position: relative;
-
-/* color: #03dac6; */
 color: rgb(239, 226, 154);
 text-shadow: 3px 2px 10px rgba(175, 175, 175, 0.8);
 text-transform: uppercase;
@@ -58,7 +53,6 @@ position: relativ;
 z-index: 2;
 margin-top: 1.5rem;
 font-size: 0,5rem;
-
 box-shadow: 5px 1px 10px rgba(165, 165, 165, 0.6);
 }
 
