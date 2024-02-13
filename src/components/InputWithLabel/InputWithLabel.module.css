@@ -15,7 +15,7 @@ font-weight: bold;
 }
 
 .formInput::placeholder {
-  font-size: 0.875rem;
+font-size: 0.875rem;
 }
 
 @media screen and (max-width: 768px) {
